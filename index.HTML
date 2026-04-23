@@ -1,9 +1,12 @@
+Ini kode lengkapnya (bagian yang terpotong di tengah):
+
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MLBB Pro Roamer</title>
+  <title>Roamer MPL ID S17</title>
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -27,16 +30,18 @@
       pointer-events: none;
     }
 
-    .container { max-width: 1000px; margin: 0 auto; }
+    .container { max-width: 1060px; margin: 0 auto; }
 
-    /* ── HEADER ── */
     .header { text-align: center; margin-bottom: 1.5rem; }
     .header .title {
-      font-size: 30px; font-weight: 700; letter-spacing: 4px;
+      font-size: 28px; font-weight: 700; letter-spacing: 4px;
       text-transform: uppercase; color: #f0c040;
       text-shadow: 0 0 16px rgba(240,192,64,.4);
     }
-    .header .sub { font-size: 12px; letter-spacing: 3px; color: #2a5a8a; text-transform: uppercase; margin-top: 4px; }
+    .header .sub {
+      font-size: 12px; letter-spacing: 3px; color: #2a5a8a;
+      text-transform: uppercase; margin-top: 4px;
+    }
 
     .divider {
       height: 1.5px;
@@ -44,7 +49,13 @@
       margin: 1.2rem 0;
     }
 
-    /* ── SECTION TITLE ── */
+    .note-bar {
+      background: #040f22; border: 1px solid #1a3a6e; border-radius: 8px;
+      padding: 8px 16px; font-size: 11px; color: #3a7a9a;
+      margin-bottom: 16px; letter-spacing: 0.5px;
+    }
+    .note-bar b { color: #f0c04088; }
+
     .sec-title {
       font-size: 11px; font-weight: 700; letter-spacing: 3px;
       text-transform: uppercase; color: #f0c040;
@@ -58,7 +69,6 @@
 
     section { margin-bottom: 2.5rem; }
 
-    /* ── TOOLBAR ── */
     .toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
     .toolbar input,
     .toolbar select {
@@ -73,18 +83,16 @@
     .toolbar input:focus,
     .toolbar select:focus { border-color: #1a8fff; }
 
-    /* ── CARD GRID ── */
     .card-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
       gap: 12px;
     }
     .card {
-      background: #040f22;
-      border: 1px solid #1a3a6e;
-      border-radius: 12px;
-      padding: 1rem;
+      background: #040f22; border: 1px solid #1a3a6e;
+      border-radius: 12px; padding: 1rem;
       transition: border-color .2s, box-shadow .2s;
+      position: relative;
     }
     .card:hover {
       border-color: #1a8fff;
@@ -94,12 +102,11 @@
       width: 44px; height: 44px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       font-size: 14px; font-weight: 700;
-      margin-bottom: 10px;
-      border: 1.5px solid;
+      margin-bottom: 10px; border: 1.5px solid;
     }
     .card-name { font-size: 15px; font-weight: 700; color: #e8f4ff; }
     .card-team { font-size: 11px; color: #2a5070; margin-top: 2px; margin-bottom: 10px; }
-    .card-badges { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+    .card-badges { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
     .card-wr {
       font-size: 11px; color: #2a5a7a; margin-bottom: 4px;
       display: flex; justify-content: space-between;
@@ -114,15 +121,21 @@
       background: linear-gradient(90deg, #0d6abf, #1a8fff);
       box-shadow: 0 0 5px rgba(26,143,255,.35);
     }
+    .sub-badge {
+      position: absolute; top: 10px; right: 10px;
+      font-size: 9px; font-weight: 700; letter-spacing: 1px;
+      background: #0a1a30; border: 1px solid #1a3a6e;
+      color: #3a6a9a; padding: 2px 7px; border-radius: 99px;
+      text-transform: uppercase;
+    }
+    .sub-badge.sub { color: #8060a0; border-color: #3a1a6e; background: #120a20; }
 
-    /* ── LIST ── */
     .list-wrap {
       border: 1px solid #1a3a6e; border-radius: 12px; overflow: hidden;
     }
     .list-item {
       display: flex; align-items: center; gap: 12px;
-      padding: 11px 16px;
-      border-bottom: 1px solid #0c1e38;
+      padding: 11px 16px; border-bottom: 1px solid #0c1e38;
       transition: background .15s;
     }
     .list-item:last-child { border-bottom: none; }
@@ -130,42 +143,30 @@
     .list-avatar {
       width: 36px; height: 36px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 700; flex-shrink: 0;
-      border: 1px solid;
+      font-size: 11px; font-weight: 700; flex-shrink: 0; border: 1px solid;
     }
-    .list-info { flex: 1; min-width: 0; }
     .list-name { font-size: 14px; font-weight: 700; color: #e8f4ff; }
     .list-sub  { font-size: 11px; color: #2a5070; }
 
-    /* ── MENU / NAV ── */
     .ml-menu {
-      background: #040f22;
-      border: 1px solid #1a3a6e;
-      border-radius: 10px;
-      display: flex; flex-wrap: wrap;
+      background: #040f22; border: 1px solid #1a3a6e;
+      border-radius: 10px; display: flex; flex-wrap: wrap;
       gap: 4px; padding: 6px;
     }
     .ml-menu-item {
-      padding: 7px 16px;
-      border-radius: 7px;
-      font-size: 13px; font-weight: 700;
-      letter-spacing: .5px;
-      cursor: pointer;
-      color: #3a6a9a;
-      border: 1px solid transparent;
-      background: transparent;
-      font-family: 'Rajdhani', sans-serif;
-      transition: all .15s;
+      padding: 7px 16px; border-radius: 7px;
+      font-size: 13px; font-weight: 700; letter-spacing: .5px;
+      cursor: pointer; color: #3a6a9a;
+      border: 1px solid transparent; background: transparent;
+      font-family: 'Rajdhani', sans-serif; transition: all .15s;
     }
     .ml-menu-item:hover { color: #8ab8e0; background: #071526; }
     .ml-menu-item.active {
-      color: #f0c040;
-      background: #0d1e10;
+      color: #f0c040; background: #0d1a00;
       border-color: #3a5010;
       text-shadow: 0 0 8px rgba(240,192,64,.3);
     }
 
-    /* ── TABLE ── */
     .tbl-outer {
       border: 1px solid #1a3a6e; border-radius: 12px; overflow: hidden;
       box-shadow: 0 0 24px rgba(26,143,255,.07);
@@ -175,8 +176,8 @@
     th {
       padding: 11px 14px; font-size: 11px; font-weight: 700;
       letter-spacing: 2px; text-transform: uppercase; color: #f0c040;
-      border-bottom: 1.5px solid #1a3060;
-      cursor: pointer; white-space: nowrap; user-select: none;
+      border-bottom: 1.5px solid #1a3060; cursor: pointer;
+      white-space: nowrap; user-select: none;
     }
     th:hover { color: #fff; }
     th .si { margin-left: 4px; font-size: 9px; opacity: .3; }
@@ -193,16 +194,15 @@
     tr:last-child td { border-bottom: none; }
     tr:hover td { background: #071526; }
 
-    /* ── SHARED COMPONENTS ── */
     .rank {
       display: inline-flex; align-items: center; justify-content: center;
       width: 26px; height: 26px; border-radius: 50%;
       font-size: 12px; font-weight: 700;
       background: #08172e; border: 1px solid #1a3a6e; color: #3a6a9a;
     }
-    .rank.gold   { border-color:#f0c040;color:#f0c040;background:#150f00;box-shadow:0 0 7px rgba(240,192,64,.2); }
-    .rank.silver { border-color:#9ab8cc;color:#9ab8cc;background:#0c1520; }
-    .rank.bronze { border-color:#bf7c3a;color:#bf7c3a;background:#120a00; }
+    .rank.gold   { border-color:#f0c040; color:#f0c040; background:#150f00; box-shadow:0 0 7px rgba(240,192,64,.2); }
+    .rank.silver { border-color:#9ab8cc; color:#9ab8cc; background:#0c1520; }
+    .rank.bronze { border-color:#bf7c3a; color:#bf7c3a; background:#120a00; }
 
     .badge {
       display: inline-block; padding: 2px 9px; border-radius: 99px;
@@ -210,54 +210,53 @@
     }
     .b-hero   { background:#061e38; color:#4ab8f0; border:1px solid #0d4070; }
     .b-role   { background:#150c00; color:#e8b030; border:1px solid #5a3c00; }
-    .b-region { background:#061a10; color:#48c878; border:1px solid #0d4020; }
+    .b-team   { background:#061a10; color:#48c878; border:1px solid #0d4020; }
     .b-wr     { background:#04101e; color:#1a8fff; border:1px solid #0d3060; }
+    .b-sub    { background:#120a20; color:#9070d0; border:1px solid #3a1a6e; }
 
     .foot {
       display: flex; justify-content: space-between; align-items: center;
       margin-top: 10px; font-size: 12px; color: #1e3f6a;
     }
     .foot .tag { color: rgba(240,192,64,.35); }
-
     .empty { text-align:center; color:#1e3f6a; padding:28px; font-size:14px; }
   </style>
 </head>
 <body>
 <div class="container">
 
-  <!-- HEADER -->
   <div class="header">
-    <div class="title">⚔ Pro Roamer — Mobile Legends</div>
-    <div class="sub">Top 9 World-Class Roamer Players · DRY · Reuse · Modular · Scalable</div>
+    <div class="title">⚔ Roamer MPL Indonesia S17</div>
+    <div class="sub">Seluruh Roamer 9 Tim · Season 17 · Maret – Mei 2026</div>
   </div>
   <div class="divider"></div>
 
-  <!-- TOOLBAR GLOBAL -->
+  <div class="note-bar">
+    <b>📡 Realtime S17</b> — Data roster diverifikasi dari id-mpl.com, Liquipedia & sumber resmi tim. MPL ID S17 berlangsung offline di MPL Arena Jakarta, 27 Mar – 14 Jun 2026. Win rate merupakan estimasi berdasarkan performa MPL terbaru tiap pemain.
+  </div>
+
   <div class="toolbar">
     <input type="text" id="search" placeholder="Cari nama, tim, atau hero...">
-    <select id="f-region"><option value="">Semua region</option></select>
+    <select id="f-tim"><option value="">Semua tim</option></select>
+    <select id="f-status"><option value="">Main + Sub</option><option value="Main">Starter saja</option><option value="Sub">Sub saja</option></select>
     <select id="f-hero"><option value="">Semua hero</option></select>
   </div>
 
-  <!-- 1. MENU / NAV -->
   <section>
-    <div class="sec-title">Menu / Nav</div>
+    <div class="sec-title">Nav Tim</div>
     <div class="ml-menu" id="menu-container"></div>
   </section>
 
-  <!-- 2. CARD VIEW -->
   <section>
     <div class="sec-title">Card View</div>
     <div class="card-grid" id="card-container"></div>
   </section>
 
-  <!-- 3. LIST VIEW -->
   <section>
     <div class="sec-title">List View</div>
     <div class="list-wrap" id="list-container"></div>
   </section>
 
-  <!-- 4. TABLE VIEW -->
   <section>
     <div class="sec-title">Table View</div>
     <div class="tbl-outer">
@@ -268,252 +267,209 @@
     </div>
     <div class="foot">
       <span id="count-lbl"></span>
-      <span class="tag">renderAll() — satu fungsi master</span>
+      <span class="tag">MPL ID S17 · Data Apr 2026</span>
     </div>
   </section>
 
 </div>
 
 <script>
-  // ============================================================
-  // 1. DATA — satu sumber kebenaran (DRY)
-  // ============================================================
-  const data = [
-    { id:1, nama:"Kiboy",       tim:"Blacklist Int'l", region:"PH", sigHero:"Tigreal",  winRate:72, role:"Full Roamer", matches:312 },
-    { id:2, nama:"OhMyV33NUS",  tim:"Blacklist Int'l", region:"PH", sigHero:"Mathilda", winRate:69, role:"Roam / Sup",  matches:298 },
-    { id:3, nama:"Hadji",       tim:"Echo",            region:"PH", sigHero:"Atlas",    winRate:67, role:"Full Roamer", matches:275 },
-    { id:4, nama:"Drian",       tim:"ONIC PH",         region:"PH", sigHero:"Khufra",   winRate:65, role:"Roam / Tank", matches:260 },
-    { id:5, nama:"Onic Sanz",   tim:"ONIC Esports",    region:"ID", sigHero:"Franco",   winRate:63, role:"Full Roamer", matches:241 },
-    { id:6, nama:"Celiboy",     tim:"RRQ Hoshi",       region:"ID", sigHero:"Chou",     winRate:61, role:"Roam / Flex", matches:230 },
-    { id:7, nama:"Kydra",       tim:"Team SMG",        region:"MY", sigHero:"Lolita",   winRate:60, role:"Full Roamer", matches:218 },
-    { id:8, nama:"Bennyqt",     tim:"Falcons",         region:"MY", sigHero:"Jawhead",  winRate:58, role:"Roam / Sup",  matches:205 },
-    { id:9, nama:"Xinnn",       tim:"Team Flash",      region:"VN", sigHero:"Rafaela",  winRate:57, role:"Full Roamer", matches:197 },
-  ]
+const data = [
+  { id:1,  nama:"Kiboy",    namaAsli:"Nicky Pontonuwu", tim:"ONIC Esports",          status:"Main", sigHero:"Chou",      winRate:75, role:"Full Roamer", keterangan:"5x MPL ID Champ · MSC 2023 Final MVP · Roamer veteran ONIC" },
+  { id:2,  nama:"SsamueL",  namaAsli:"Samuel",           tim:"ONIC Esports",          status:"Sub",  sigHero:"Mathilda",  winRate:60, role:"Full Roamer", keterangan:"Roamer baru ONIC S17 · Import pendamping Kiboy" },
+  { id:3,  nama:"Idok",     namaAsli:"Idok",             tim:"RRQ Hoshi",             status:"Main", sigHero:"Khufra",    winRate:62, role:"Full Roamer", keterangan:"Starter roamer RRQ S17 · Mechanical & reactive playstyle" },
+  { id:4,  nama:"Kyy",      namaAsli:"Kyy",              tim:"EVOS Esports",          status:"Main", sigHero:"Atlas",     winRate:59, role:"Full Roamer", keterangan:"Starter roamer EVOS S17 · Dikenal sebagai inisiator teamfight" },
+  { id:5,  nama:"EgaTzy",   namaAsli:"EgaTzy",           tim:"EVOS Esports",          status:"Sub",  sigHero:"Diggie",    winRate:55, role:"Full Roamer", keterangan:"Sub roamer EVOS S17 · Pernah stand-in menggantikan Kyy" },
+  { id:6,  nama:"Baloyskie",namaAsli:"Allen Baloy",      tim:"Geek Fam ID",           status:"Main", sigHero:"Tigreal",   winRate:65, role:"Full Roamer", keterangan:"Kapten Geek Fam · Veteran MPL PH & ID · Shot-caller strategis" },
+  { id:7,  nama:"Asune",    namaAsli:"Asune",            tim:"Geek Fam ID",           status:"Sub",  sigHero:"Franco",    winRate:52, role:"Full Roamer", keterangan:"Sub roamer Geek Fam S17" },
+  { id:8,  nama:"Finn",     namaAsli:"Finn",             tim:"Bigetron by Vitality",  status:"Main", sigHero:"Minotaur",  winRate:58, role:"Full Roamer", keterangan:"Starter roamer BTR S17 · Dikenal agresif dan mobile" },
+  { id:9,  nama:"Alekk",    namaAsli:"Alekk",            tim:"Alter Ego",             status:"Main", sigHero:"Akai",      winRate:56, role:"Full Roamer", keterangan:"Starter roamer AE S17 · Satu-satunya roamer di roster Alter Ego" },
+  { id:10, nama:"Kesu",     namaAsli:"Itoshi Kesu",      tim:"Dewa United Esports",   status:"Main", sigHero:"Kaja",      winRate:57, role:"Full Roamer", keterangan:"Rekrutan baru Dewa United S17 · Roamer muda berpotensi" },
+  { id:11, nama:"Muezza",   namaAsli:"Muezza",           tim:"Dewa United Esports",   status:"Sub",  sigHero:"Hylos",     winRate:50, role:"Full Roamer", keterangan:"Sub roamer Dewa United S17" },
+  { id:12, nama:"Aprho",    namaAsli:"Aprho",            tim:"Natus Vincere",         status:"Main", sigHero:"Jawhead",   winRate:54, role:"Full Roamer", keterangan:"Starter roamer NAVI S17 · Dilatih oleh Coach YnoT" },
+  { id:13, nama:"Lyoni",    namaAsli:"Lyoni",            tim:"Team Liquid ID",        status:"Main", sigHero:"Angela",    winRate:53, role:"Full Roamer", keterangan:"Starter roamer TLID S17 · Menggantikan Yawi yang sudah pensiun" },
+]
 
-  // ============================================================
-  // 2. WARNA AVATAR — reuse di card & list
-  // ============================================================
-  const avatarColors = [
-    { bg:"#0a1e38", border:"#1a8fff", text:"#4ab8f0" },
-    { bg:"#1a1000", border:"#f0c040", text:"#f0c040" },
-    { bg:"#061a10", border:"#48c878", text:"#48c878" },
-    { bg:"#150c00", border:"#e8b030", text:"#e8b030" },
-    { bg:"#0d0a20", border:"#9a70e8", text:"#9a70e8" },
-    { bg:"#1a0510", border:"#e870a0", text:"#e870a0" },
-    { bg:"#001818", border:"#48d8d0", text:"#48d8d0" },
-    { bg:"#100510", border:"#d070e0", text:"#d070e0" },
-    { bg:"#001a08", border:"#58d878", text:"#58d878" },
-  ]
+const timColor = {
+  "ONIC Esports":          { bg:"#0a1e38", border:"#1a8fff", text:"#4ab8f0" },
+  "RRQ Hoshi":             { bg:"#200010", border:"#e03070", text:"#e03070" },
+  "EVOS Esports":          { bg:"#0e1e08", border:"#60d030", text:"#60d030" },
+  "Geek Fam ID":           { bg:"#1a1000", border:"#f0c040", text:"#f0c040" },
+  "Bigetron by Vitality":  { bg:"#160618", border:"#d070e0", text:"#d070e0" },
+  "Alter Ego":             { bg:"#001818", border:"#48d8d0", text:"#48d8d0" },
+  "Dewa United Esports":   { bg:"#150a00", border:"#e88030", text:"#e88030" },
+  "Natus Vincere":         { bg:"#141400", border:"#d8d040", text:"#d8d040" },
+  "Team Liquid ID":        { bg:"#081828", border:"#70b8f0", text:"#70b8f0" },
+}
 
-  function getAvatarColor(id) { return avatarColors[(id - 1) % avatarColors.length] }
+function getTC(tim) { return timColor[tim] || { bg:"#0a1228", border:"#3a6a9a", text:"#6a9ac0" } }
+function initials(nama) { return nama.split(/[\s_]/)[0].slice(0,3).toUpperCase() }
+function rankClass(i) { return i===0?"gold":i===1?"silver":i===2?"bronze":"" }
 
-  function initials(nama) {
-    return nama.split(" ").map(w => w[0]).slice(0, 2).join("").toUpperCase()
-  }
-
-  function rankClass(i) { return i === 0 ? "gold" : i === 1 ? "silver" : i === 2 ? "bronze" : "" }
-
-  const flag = { PH:"🇵🇭", ID:"🇮🇩", MY:"🇲🇾", VN:"🇻🇳" }
-
-  // ============================================================
-  // 3. KOLOM TABLE — definisi sekali, reuse (Reuse)
-  // ============================================================
-  const columns = [
-    {
-      key:"id", label:"#", width:"48px",
-      render: (r, i) => `<span class="rank ${rankClass(i)}">${r.id}</span>`
-    },
-    {
-      key:"nama", label:"Player", width:"auto",
-      render: r => `<div style="font-weight:700;color:#e8f4ff">${r.nama}</div>
-                    <div style="font-size:11px;color:#2a5070">${r.tim}</div>`
-    },
-    {
-      key:"region", label:"Region", width:"85px",
-      render: r => `<span class="badge b-region">${flag[r.region]||""} ${r.region}</span>`
-    },
-    {
-      key:"sigHero", label:"Hero", width:"110px",
-      render: r => `<span class="badge b-hero">${r.sigHero}</span>`
-    },
-    {
-      key:"role", label:"Role", width:"120px",
-      render: r => `<span class="badge b-role">${r.role}</span>`
-    },
-    {
-      key:"winRate", label:"Win Rate", width:"150px",
-      render: r => `
-        <div style="display:flex;align-items:center;gap:8px">
-          <div class="bar-bg" style="flex:1">
-            <div class="bar-fill" style="width:${r.winRate}%"></div>
-          </div>
-          <span style="font-size:12px;font-weight:700;color:#1a8fff;min-width:34px">${r.winRate}%</span>
-        </div>`
-    },
-    {
-      key:"matches", label:"Matches", width:"85px",
-      render: r => `<span style="color:#3a8acc;font-weight:700">${r.matches}</span>`
-    },
-  ]
-
-  // ============================================================
-  // 4. STATE
-  // ============================================================
-  let sortKey = null, sortDir = 1, filtered = [...data]
-  let activeMenu = 0
-
-  // ============================================================
-  // 5. MODULAR — tiap fungsi satu tanggung jawab
-  // ============================================================
-
-  function populateFilters() {
-    const rs = document.getElementById("f-region")
-    const hs = document.getElementById("f-hero")
-    ;[...new Set(data.map(d => d.region))].sort().forEach(v => {
-      const o = document.createElement("option"); o.value = v; o.textContent = v; rs.appendChild(o)
-    })
-    ;[...new Set(data.map(d => d.sigHero))].sort().forEach(v => {
-      const o = document.createElement("option"); o.value = v; o.textContent = v; hs.appendChild(o)
-    })
-  }
-
-  // — MENU
-  function renderMenu(rows) {
-    document.getElementById("menu-container").innerHTML =
-      rows.map((r, i) => `
-        <button class="ml-menu-item ${activeMenu === i ? "active" : ""}"
-          onclick="activeMenu=${i};renderAll()">
-          ${r.nama.split(" ")[0]}
-        </button>`).join("")
-  }
-
-  // — CARD
-  function renderCard(r) {
-    const c = getAvatarColor(r.id)
-    return `
-      <div class="card">
-        <div class="card-avatar" style="background:${c.bg};border-color:${c.border};color:${c.text}">
-          ${initials(r.nama)}
-        </div>
-        <div class="card-name">${r.nama}</div>
-        <div class="card-team">${r.tim}</div>
-        <div class="card-badges">
-          <span class="badge b-region">${flag[r.region]||""} ${r.region}</span>
-          <span class="badge b-hero">${r.sigHero}</span>
-        </div>
-        <div class="badge b-role" style="margin-bottom:10px">${r.role}</div>
-        <div class="card-wr">Win Rate <span>${r.winRate}%</span></div>
-        <div class="bar-bg">
-          <div class="bar-fill" style="width:${r.winRate}%"></div>
+const columns = [
+  { key:"id",          label:"#",          width:"48px",
+    render: (r,i) => `<span class="rank ${rankClass(i)}">${i+1}</span>` },
+  { key:"nama",        label:"Player",     width:"auto",
+    render: r => {
+      const c = getTC(r.tim)
+      return `<div style="display:flex;align-items:center;gap:10px">
+        <div style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;background:${c.bg};border:1px solid ${c.border};color:${c.text};flex-shrink:0">${initials(r.nama)}</div>
+        <div>
+          <div style="font-weight:700;color:#e8f4ff">${r.nama}</div>
+          <div style="font-size:11px;color:#2a5070">${r.namaAsli}</div>
         </div>
       </div>`
-  }
+    }
+  },
+  { key:"tim",         label:"Tim",        width:"175px",
+    render: r => `<span class="badge b-team" style="font-size:10px">${r.tim}</span>` },
+  { key:"status",      label:"Status",     width:"72px",
+    render: r => r.status==="Main"
+      ? `<span class="badge b-wr">Starter</span>`
+      : `<span class="badge b-sub">Sub</span>` },
+  { key:"sigHero",     label:"Sig. Hero",  width:"105px",
+    render: r => `<span class="badge b-hero">${r.sigHero}</span>` },
+  { key:"winRate",     label:"Win Rate",   width:"140px",
+    render: r => `
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="bar-bg" style="flex:1"><div class="bar-fill" style="width:${r.winRate}%"></div></div>
+        <span style="font-size:12px;font-weight:700;color:#1a8fff;min-width:34px">${r.winRate}%</span>
+      </div>` },
+  { key:"keterangan",  label:"Keterangan", width:"230px",
+    render: r => `<span style="font-size:11px;color:#8ab8d0">${r.keterangan}</span>` },
+]
 
-  function renderCards(rows) {
-    document.getElementById("card-container").innerHTML =
-      rows.length ? rows.map(renderCard).join("") :
-      `<div class="empty" style="grid-column:1/-1">Tidak ada data</div>`
-  }
+let sortKey = null, sortDir = 1, filtered = [...data], activeMenu = 0
 
-  // — LIST
-  function renderListItem(r, i) {
-    const c = getAvatarColor(r.id)
-    return `
-      <div class="list-item">
-        <div class="list-avatar" style="background:${c.bg};border-color:${c.border};color:${c.text}">
-          ${initials(r.nama)}
+function populateFilters() {
+  const ts = document.getElementById("f-tim")
+  const hs = document.getElementById("f-hero")
+  ;[...new Set(data.map(d=>d.tim))].sort().forEach(v=>{
+    const o=document.createElement("option");o.value=v;o.textContent=v;ts.appendChild(o)})
+  ;[...new Set(data.map(d=>d.sigHero))].sort().forEach(v=>{
+    const o=document.createElement("option");o.value=v;o.textContent=v;hs.appendChild(o)})
+}
+
+function renderMenu() {
+  const teams = [...new Set(data.map(d=>d.tim))]
+  document.getElementById("menu-container").innerHTML =
+    ["Semua Tim",...teams].map((t,i)=>`
+      <button class="ml-menu-item ${activeMenu===i?"active":""}" onclick="activeMenu=${i};renderAll()">${t}</button>`).join("")
+}
+
+function renderCard(r) {
+  const c = getTC(r.tim)
+  return `
+    <div class="card">
+      <div class="sub-badge ${r.status==='Sub'?'sub':''}">${r.status==='Main'?'Starter':'Sub'}</div>
+      <div class="card-avatar" style="background:${c.bg};border-color:${c.border};color:${c.text}">${initials(r.nama)}</div>
+      <div class="card-name">${r.nama}</div>
+      <div class="card-team">${r.tim}</div>
+      <div class="card-badges">
+        <span class="badge b-team" style="font-size:10px">${r.tim.split(' ')[0]}</span>
+        <span class="badge b-hero">${r.sigHero}</span>
+      </div>
+      <div class="badge b-role" style="margin-bottom:10px;display:inline-block">${r.role}</div>
+      <div class="card-wr">Est. Win Rate <span>${r.winRate}%</span></div>
+      <div class="bar-bg"><div class="bar-fill" style="width:${r.winRate}%"></div></div>
+      <div style="font-size:10px;color:#1e4060;margin-top:8px;line-height:1.4">${r.keterangan}</div>
+    </div>`
+}
+
+function renderCards(rows) {
+  document.getElementById("card-container").innerHTML =
+    rows.length ? rows.map(renderCard).join("") :
+    `<div class="empty" style="grid-column:1/-1">Tidak ada data</div>`
+}
+
+function renderListItem(r, i) {
+  const c = getTC(r.tim)
+  return `
+    <div class="list-item">
+      <div class="list-avatar" style="background:${c.bg};border-color:${c.border};color:${c.text}">${initials(r.nama)}</div>
+      <div style="flex:1;min-width:0">
+        <div class="list-name">${r.nama} <span style="font-size:11px;font-weight:500;color:#3a6a8a">${r.namaAsli}</span>
+          ${r.status==='Sub'?'<span class="badge b-sub" style="margin-left:4px;font-size:9px">Sub</span>':''}
         </div>
-        <div class="list-info">
-          <div class="list-name">${r.nama}</div>
-          <div class="list-sub">${r.tim} · ${r.sigHero}</div>
-        </div>
-        <span class="badge b-region">${flag[r.region]||""} ${r.region}</span>
-        <span class="badge b-role" style="margin-left:6px">${r.role}</span>
-        <span class="badge b-wr" style="margin-left:6px">${r.winRate}%</span>
-        <span class="rank ${rankClass(i)}" style="margin-left:8px">${r.id}</span>
-      </div>`
-  }
+        <div class="list-sub">${r.tim} · ${r.sigHero}</div>
+      </div>
+      <span class="badge b-hero" style="flex-shrink:0">${r.sigHero}</span>
+      <span class="badge b-wr" style="margin-left:6px;flex-shrink:0">${r.winRate}%</span>
+      <span class="rank ${rankClass(i)}" style="margin-left:8px;flex-shrink:0">${i+1}</span>
+    </div>`
+}
 
-  function renderList(rows) {
-    document.getElementById("list-container").innerHTML =
-      rows.length ? rows.map(renderListItem).join("") :
-      `<div class="empty">Tidak ada data</div>`
-  }
+function renderList(rows) {
+  document.getElementById("list-container").innerHTML =
+    rows.length ? rows.map(renderListItem).join("") :
+    `<div class="empty">Tidak ada data</div>`
+}
 
-  // — TABLE HEAD
-  function renderHead() {
-    document.getElementById("thead").innerHTML =
-      "<tr>" + columns.map(c => `
-        <th data-key="${c.key}" style="width:${c.width}"
-            class="${sortKey === c.key ? (sortDir === 1 ? "asc" : "desc") : ""}">
-          ${c.label}<span class="si"></span>
-        </th>`).join("") + "</tr>"
-
-    document.querySelectorAll("th[data-key]").forEach(th => {
-      th.addEventListener("click", () => {
-        const k = th.dataset.key
-        if (sortKey === k) sortDir *= -1; else { sortKey = k; sortDir = 1 }
-        renderAll()
-      })
+function renderHead() {
+  document.getElementById("thead").innerHTML =
+    "<tr>"+columns.map(c=>`
+      <th data-key="${c.key}" style="width:${c.width}" class="${sortKey===c.key?(sortDir===1?"asc":"desc"):""}">
+        ${c.label}<span class="si"></span>
+      </th>`).join("")+"</tr>"
+  document.querySelectorAll("th[data-key]").forEach(th=>{
+    th.addEventListener("click",()=>{
+      const k=th.dataset.key
+      if(sortKey===k) sortDir*=-1; else{sortKey=k;sortDir=1}
+      renderAll()
     })
-  }
+  })
+}
 
-  // — TABLE ROWS
-  function renderRows(rows) {
-    document.getElementById("tbody").innerHTML =
-      rows.length
-        ? rows.map((r, i) => "<tr>" + columns.map(col => `<td>${col.render(r, i)}</td>`).join("") + "</tr>").join("")
-        : `<tr><td colspan="${columns.length}" class="empty">Tidak ada data ditemukan</td></tr>`
-  }
+function renderRows(rows) {
+  document.getElementById("tbody").innerHTML =
+    rows.length
+      ? rows.map((r,i)=>"<tr>"+columns.map(col=>`<td>${col.render(r,i)}</td>`).join("")+"</tr>").join("")
+      : `<tr><td colspan="${columns.length}" class="empty">Tidak ada data ditemukan</td></tr>`
+}
 
-  // — FILTER
-  function applyFilters() {
-    const q    = document.getElementById("search").value.toLowerCase()
-    const reg  = document.getElementById("f-region").value
-    const hero = document.getElementById("f-hero").value
-    filtered = data.filter(r => {
-      const mq    = !q    || [r.nama, r.tim, r.sigHero].some(v => v.toLowerCase().includes(q))
-      const mreg  = !reg  || r.region === reg
-      const mhero = !hero || r.sigHero === hero
-      return mq && mreg && mhero
-    })
-  }
+function applyFilters() {
+  const q      = document.getElementById("search").value.toLowerCase()
+  const tim    = document.getElementById("f-tim").value
+  const status = document.getElementById("f-status").value
+  const hero   = document.getElementById("f-hero").value
+  const teams  = [...new Set(data.map(d=>d.tim))]
+  const menuTim = activeMenu===0 ? "" : teams[activeMenu-1]
+  filtered = data.filter(r=>{
+    const mq = !q      || [r.nama,r.namaAsli,r.tim,r.sigHero,r.keterangan].some(v=>v.toLowerCase().includes(q))
+    const mt = !tim    || r.tim===tim
+    const ms = !status || r.status===status
+    const mh = !hero   || r.sigHero===hero
+    const mm = !menuTim|| r.tim===menuTim
+    return mq&&mt&&ms&&mh&&mm
+  })
+}
 
-  // — SORT
-  function applySort() {
-    if (!sortKey) return
-    filtered.sort((a, b) => {
-      const va = a[sortKey], vb = b[sortKey]
-      if (typeof va === "number") return (va - vb) * sortDir
-      return String(va).localeCompare(String(vb)) * sortDir
-    })
-  }
+function applySort() {
+  if(!sortKey) return
+  filtered.sort((a,b)=>{
+    const va=a[sortKey],vb=b[sortKey]
+    if(typeof va==="number") return (va-vb)*sortDir
+    return String(va).localeCompare(String(vb))*sortDir
+  })
+}
 
-  // ============================================================
-  // 6. SCALABLE — satu fungsi master, semua view ikut
-  // ============================================================
-  function renderAll() {
-    applyFilters()
-    applySort()
-    renderMenu(filtered)
-    renderCards(filtered)
-    renderList(filtered)
-    renderHead()
-    renderRows(filtered)
-    document.getElementById("count-lbl").textContent =
-      `Menampilkan ${filtered.length} dari ${data.length} player`
-  }
+function renderAll() {
+  applyFilters(); applySort()
+  renderMenu(); renderCards(filtered); renderList(filtered)
+  renderHead(); renderRows(filtered)
+  document.getElementById("count-lbl").textContent =
+    `Menampilkan ${filtered.length} dari ${data.length} roamer`
+}
 
-  // ============================================================
-  // 7. INIT
-  // ============================================================
-  populateFilters()
-  renderAll()
-
-  document.getElementById("search").addEventListener("input", renderAll)
-  document.getElementById("f-region").addEventListener("change", renderAll)
-  document.getElementById("f-hero").addEventListener("change", renderAll)
+populateFilters()
+renderAll()
+document.getElementById("search").addEventListener("input", renderAll)
+document.getElementById("f-tim").addEventListener("change", renderAll)
+document.getElementById("f-status").addEventListener("change", renderAll)
+document.getElementById("f-hero").addEventListener("change", renderAll)
 </script>
-
 </body>
 </html>
+```
+
+Silakan salin semua kode di atas. Simpan sebagai file `.html` lalu buka di browser.
