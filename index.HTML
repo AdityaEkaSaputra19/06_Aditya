@@ -16,7 +16,6 @@
       color: #c0d8f0;
     }
 
-    /* ── BACKGROUND SUBTLE GRID ── */
     body::before {
       content: '';
       position: fixed;
@@ -28,243 +27,256 @@
       pointer-events: none;
     }
 
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-    }
+    .container { max-width: 1000px; margin: 0 auto; }
 
     /* ── HEADER ── */
-    .header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    .header .crown {
-      font-size: 32px;
-      display: block;
-      margin-bottom: 6px;
-    }
-
+    .header { text-align: center; margin-bottom: 1.5rem; }
     .header .title {
-      font-size: 32px;
-      font-weight: 700;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: #f0c040;
-      text-shadow: 0 0 18px rgba(240,192,64,.45), 0 0 40px rgba(240,192,64,.15);
+      font-size: 30px; font-weight: 700; letter-spacing: 4px;
+      text-transform: uppercase; color: #f0c040;
+      text-shadow: 0 0 16px rgba(240,192,64,.4);
     }
-
-    .header .sub {
-      font-size: 13px;
-      letter-spacing: 3px;
-      color: #3a7abf;
-      text-transform: uppercase;
-      margin-top: 4px;
-    }
+    .header .sub { font-size: 12px; letter-spacing: 3px; color: #2a5a8a; text-transform: uppercase; margin-top: 4px; }
 
     .divider {
       height: 1.5px;
       background: linear-gradient(90deg, transparent, #f0c040aa, #1a8fffaa, transparent);
-      margin: 1.5rem 0;
+      margin: 1.2rem 0;
     }
+
+    /* ── SECTION TITLE ── */
+    .sec-title {
+      font-size: 11px; font-weight: 700; letter-spacing: 3px;
+      text-transform: uppercase; color: #f0c040;
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .sec-title::after {
+      content: ''; flex: 1; height: 1px;
+      background: linear-gradient(90deg, #1a3a6e, transparent);
+    }
+
+    section { margin-bottom: 2.5rem; }
 
     /* ── TOOLBAR ── */
-    .toolbar {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-    }
-
+    .toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
     .toolbar input,
     .toolbar select {
       padding: 8px 14px;
-      background: #040f22;
-      border: 1px solid #1a3a6e;
-      border-radius: 8px;
-      color: #8ab8e0;
-      font-size: 14px;
-      font-family: 'Rajdhani', sans-serif;
-      font-weight: 500;
-      outline: none;
-      transition: border-color .2s;
+      background: #040f22; border: 1px solid #1a3a6e;
+      border-radius: 8px; color: #8ab8e0;
+      font-size: 14px; font-family: 'Rajdhani', sans-serif; font-weight: 500;
+      outline: none; transition: border-color .2s;
     }
-
-    .toolbar input { flex: 1; min-width: 200px; }
+    .toolbar input { flex: 1; min-width: 180px; }
     .toolbar input::placeholder { color: #1e3f6a; }
     .toolbar input:focus,
     .toolbar select:focus { border-color: #1a8fff; }
 
-    /* ── TABLE WRAPPER ── */
-    .tbl-outer {
+    /* ── CARD GRID ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    .card {
+      background: #040f22;
       border: 1px solid #1a3a6e;
       border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 0 30px rgba(26,143,255,.08), inset 0 0 30px rgba(0,0,0,.4);
+      padding: 1rem;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .card:hover {
+      border-color: #1a8fff;
+      box-shadow: 0 0 14px rgba(26,143,255,.18);
+    }
+    .card-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 700;
+      margin-bottom: 10px;
+      border: 1.5px solid;
+    }
+    .card-name { font-size: 15px; font-weight: 700; color: #e8f4ff; }
+    .card-team { font-size: 11px; color: #2a5070; margin-top: 2px; margin-bottom: 10px; }
+    .card-badges { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+    .card-wr {
+      font-size: 11px; color: #2a5a7a; margin-bottom: 4px;
+      display: flex; justify-content: space-between;
+    }
+    .card-wr span { color: #1a8fff; font-weight: 700; }
+    .bar-bg {
+      background: #050f20; border-radius: 4px; height: 6px;
+      overflow: hidden; border: 1px solid #0d2040;
+    }
+    .bar-fill {
+      height: 100%; border-radius: 4px;
+      background: linear-gradient(90deg, #0d6abf, #1a8fff);
+      box-shadow: 0 0 5px rgba(26,143,255,.35);
     }
 
-    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    /* ── LIST ── */
+    .list-wrap {
+      border: 1px solid #1a3a6e; border-radius: 12px; overflow: hidden;
+    }
+    .list-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 11px 16px;
+      border-bottom: 1px solid #0c1e38;
+      transition: background .15s;
+    }
+    .list-item:last-child { border-bottom: none; }
+    .list-item:hover { background: #071526; }
+    .list-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; flex-shrink: 0;
+      border: 1px solid;
+    }
+    .list-info { flex: 1; min-width: 0; }
+    .list-name { font-size: 14px; font-weight: 700; color: #e8f4ff; }
+    .list-sub  { font-size: 11px; color: #2a5070; }
 
-    /* ── HEADER ROW ── */
-    thead tr { background: #030e20; }
-
-    th {
-      padding: 12px 14px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #f0c040;
-      border-bottom: 1.5px solid #1a3060;
+    /* ── MENU / NAV ── */
+    .ml-menu {
+      background: #040f22;
+      border: 1px solid #1a3a6e;
+      border-radius: 10px;
+      display: flex; flex-wrap: wrap;
+      gap: 4px; padding: 6px;
+    }
+    .ml-menu-item {
+      padding: 7px 16px;
+      border-radius: 7px;
+      font-size: 13px; font-weight: 700;
+      letter-spacing: .5px;
       cursor: pointer;
-      white-space: nowrap;
-      user-select: none;
+      color: #3a6a9a;
+      border: 1px solid transparent;
+      background: transparent;
+      font-family: 'Rajdhani', sans-serif;
+      transition: all .15s;
+    }
+    .ml-menu-item:hover { color: #8ab8e0; background: #071526; }
+    .ml-menu-item.active {
+      color: #f0c040;
+      background: #0d1e10;
+      border-color: #3a5010;
+      text-shadow: 0 0 8px rgba(240,192,64,.3);
     }
 
+    /* ── TABLE ── */
+    .tbl-outer {
+      border: 1px solid #1a3a6e; border-radius: 12px; overflow: hidden;
+      box-shadow: 0 0 24px rgba(26,143,255,.07);
+    }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    thead tr { background: #030e20; }
+    th {
+      padding: 11px 14px; font-size: 11px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: #f0c040;
+      border-bottom: 1.5px solid #1a3060;
+      cursor: pointer; white-space: nowrap; user-select: none;
+    }
     th:hover { color: #fff; }
-    th .si { margin-left: 5px; font-size: 9px; opacity: .3; }
-    th.asc .si { opacity: 1; }
+    th .si { margin-left: 4px; font-size: 9px; opacity: .3; }
+    th.asc .si, th.desc .si { opacity: 1; }
     th.asc .si::after  { content: "▲"; }
-    th.desc .si { opacity: 1; }
     th.desc .si::after { content: "▼"; }
     th:not(.asc):not(.desc) .si::after { content: "⇅"; }
 
-    /* ── DATA ROWS ── */
     td {
-      padding: 11px 14px;
-      font-size: 14px;
-      font-weight: 500;
-      color: #b0cce8;
-      border-bottom: 1px solid #0c1e38;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      vertical-align: middle;
+      padding: 10px 14px; font-size: 14px; font-weight: 500; color: #b0cce8;
+      border-bottom: 1px solid #0c1e38; overflow: hidden;
+      text-overflow: ellipsis; white-space: nowrap; vertical-align: middle;
     }
-
     tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #071526; }
 
-    tr:hover td {
-      background: #071526;
-    }
-
-    /* ── RANK BADGE ── */
+    /* ── SHARED COMPONENTS ── */
     .rank {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 28px; height: 28px;
-      border-radius: 50%;
-      font-size: 12px;
-      font-weight: 700;
-      background: #08172e;
-      border: 1px solid #1a3a6e;
-      color: #3a6a9a;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 26px; height: 26px; border-radius: 50%;
+      font-size: 12px; font-weight: 700;
+      background: #08172e; border: 1px solid #1a3a6e; color: #3a6a9a;
     }
-    .rank.gold   { border-color: #f0c040; color: #f0c040; background: #150f00; box-shadow: 0 0 8px rgba(240,192,64,.25); }
-    .rank.silver { border-color: #9ab8cc; color: #9ab8cc; background: #0c1520; }
-    .rank.bronze { border-color: #bf7c3a; color: #bf7c3a; background: #120a00; }
+    .rank.gold   { border-color:#f0c040;color:#f0c040;background:#150f00;box-shadow:0 0 7px rgba(240,192,64,.2); }
+    .rank.silver { border-color:#9ab8cc;color:#9ab8cc;background:#0c1520; }
+    .rank.bronze { border-color:#bf7c3a;color:#bf7c3a;background:#120a00; }
 
-    /* ── PLAYER NAME ── */
-    .pname { color: #e8f4ff; font-weight: 700; font-size: 15px; }
-    .pteam { font-size: 11px; color: #2a5070; letter-spacing: .5px; margin-top: 1px; }
-
-    /* ── BADGES ── */
     .badge {
-      display: inline-block;
-      padding: 3px 10px;
-      border-radius: 99px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .5px;
-      text-transform: uppercase;
+      display: inline-block; padding: 2px 9px; border-radius: 99px;
+      font-size: 11px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase;
     }
+    .b-hero   { background:#061e38; color:#4ab8f0; border:1px solid #0d4070; }
+    .b-role   { background:#150c00; color:#e8b030; border:1px solid #5a3c00; }
+    .b-region { background:#061a10; color:#48c878; border:1px solid #0d4020; }
+    .b-wr     { background:#04101e; color:#1a8fff; border:1px solid #0d3060; }
 
-    .b-hero   { background: #061e38; color: #4ab8f0; border: 1px solid #0d4070; }
-    .b-role   { background: #150c00; color: #e8b030; border: 1px solid #5a3c00; }
-    .b-region { background: #061a10; color: #48c878; border: 1px solid #0d4020; }
-
-    /* ── WIN RATE BAR ── */
-    .bar-bg {
-      background: #050f20;
-      border-radius: 4px;
-      height: 7px;
-      flex: 1;
-      overflow: hidden;
-      border: 1px solid #0d2040;
-    }
-    .bar-fill {
-      height: 100%;
-      border-radius: 4px;
-      background: linear-gradient(90deg, #0d6abf, #1a8fff);
-      box-shadow: 0 0 6px rgba(26,143,255,.4);
-    }
-    .bar-pct {
-      font-size: 12px;
-      font-weight: 700;
-      color: #1a8fff;
-      min-width: 38px;
-      text-align: right;
-    }
-
-    /* ── MATCHES ── */
-    .matches-val { color: #3a8acc; font-weight: 700; }
-
-    /* ── FOOTER ── */
     .foot {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 12px;
-      font-size: 12px;
-      color: #1e3f6a;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 10px; font-size: 12px; color: #1e3f6a;
     }
-    .foot .tag { color: rgba(240,192,64,.4); }
+    .foot .tag { color: rgba(240,192,64,.35); }
 
-    /* ── EMPTY STATE ── */
-    .empty {
-      text-align: center;
-      color: #1e3f6a;
-      padding: 32px;
-      font-size: 14px;
-    }
+    .empty { text-align:center; color:#1e3f6a; padding:28px; font-size:14px; }
   </style>
 </head>
 <body>
-
 <div class="container">
 
+  <!-- HEADER -->
   <div class="header">
-    <span class="crown">⚔</span>
-    <div class="title">Pro Roamer — Mobile Legends</div>
-    <div class="sub">Top 9 World-Class Roamer Players</div>
+    <div class="title">⚔ Pro Roamer — Mobile Legends</div>
+    <div class="sub">Top 9 World-Class Roamer Players · DRY · Reuse · Modular · Scalable</div>
   </div>
-
   <div class="divider"></div>
 
+  <!-- TOOLBAR GLOBAL -->
   <div class="toolbar">
     <input type="text" id="search" placeholder="Cari nama, tim, atau hero...">
     <select id="f-region"><option value="">Semua region</option></select>
     <select id="f-hero"><option value="">Semua hero</option></select>
   </div>
 
-  <div class="tbl-outer">
-    <table>
-      <thead id="thead"></thead>
-      <tbody id="tbody"></tbody>
-    </table>
-  </div>
+  <!-- 1. MENU / NAV -->
+  <section>
+    <div class="sec-title">Menu / Nav</div>
+    <div class="ml-menu" id="menu-container"></div>
+  </section>
 
-  <div class="foot">
-    <span id="count-lbl"></span>
-    <span class="tag">renderTable() — DRY · Reuse · Modular · Scalable</span>
-  </div>
+  <!-- 2. CARD VIEW -->
+  <section>
+    <div class="sec-title">Card View</div>
+    <div class="card-grid" id="card-container"></div>
+  </section>
+
+  <!-- 3. LIST VIEW -->
+  <section>
+    <div class="sec-title">List View</div>
+    <div class="list-wrap" id="list-container"></div>
+  </section>
+
+  <!-- 4. TABLE VIEW -->
+  <section>
+    <div class="sec-title">Table View</div>
+    <div class="tbl-outer">
+      <table>
+        <thead id="thead"></thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <div class="foot">
+      <span id="count-lbl"></span>
+      <span class="tag">renderAll() — satu fungsi master</span>
+    </div>
+  </section>
 
 </div>
 
 <script>
   // ============================================================
-  // 1. DATA
+  // 1. DATA — satu sumber kebenaran (DRY)
   // ============================================================
   const data = [
     { id:1, nama:"Kiboy",       tim:"Blacklist Int'l", region:"PH", sigHero:"Tigreal",  winRate:72, role:"Full Roamer", matches:312 },
@@ -279,59 +291,81 @@
   ]
 
   // ============================================================
-  // 2. COLUMNS — definisi sekali, reuse di header & baris
+  // 2. WARNA AVATAR — reuse di card & list
+  // ============================================================
+  const avatarColors = [
+    { bg:"#0a1e38", border:"#1a8fff", text:"#4ab8f0" },
+    { bg:"#1a1000", border:"#f0c040", text:"#f0c040" },
+    { bg:"#061a10", border:"#48c878", text:"#48c878" },
+    { bg:"#150c00", border:"#e8b030", text:"#e8b030" },
+    { bg:"#0d0a20", border:"#9a70e8", text:"#9a70e8" },
+    { bg:"#1a0510", border:"#e870a0", text:"#e870a0" },
+    { bg:"#001818", border:"#48d8d0", text:"#48d8d0" },
+    { bg:"#100510", border:"#d070e0", text:"#d070e0" },
+    { bg:"#001a08", border:"#58d878", text:"#58d878" },
+  ]
+
+  function getAvatarColor(id) { return avatarColors[(id - 1) % avatarColors.length] }
+
+  function initials(nama) {
+    return nama.split(" ").map(w => w[0]).slice(0, 2).join("").toUpperCase()
+  }
+
+  function rankClass(i) { return i === 0 ? "gold" : i === 1 ? "silver" : i === 2 ? "bronze" : "" }
+
+  const flag = { PH:"🇵🇭", ID:"🇮🇩", MY:"🇲🇾", VN:"🇻🇳" }
+
+  // ============================================================
+  // 3. KOLOM TABLE — definisi sekali, reuse (Reuse)
   // ============================================================
   const columns = [
     {
-      key: "id", label: "#", width: "52px",
-      render: (r, i) => {
-        const cls = i === 0 ? "gold" : i === 1 ? "silver" : i === 2 ? "bronze" : ""
-        return `<span class="rank ${cls}">${r.id}</span>`
-      }
+      key:"id", label:"#", width:"48px",
+      render: (r, i) => `<span class="rank ${rankClass(i)}">${r.id}</span>`
     },
     {
-      key: "nama", label: "Player", width: "auto",
-      render: r => `<div class="pname">${r.nama}</div><div class="pteam">${r.tim}</div>`
+      key:"nama", label:"Player", width:"auto",
+      render: r => `<div style="font-weight:700;color:#e8f4ff">${r.nama}</div>
+                    <div style="font-size:11px;color:#2a5070">${r.tim}</div>`
     },
     {
-      key: "region", label: "Region", width: "90px",
-      render: r => {
-        const flag = { PH:"🇵🇭", ID:"🇮🇩", MY:"🇲🇾", VN:"🇻🇳" }
-        return `<span class="badge b-region">${flag[r.region] || ""} ${r.region}</span>`
-      }
+      key:"region", label:"Region", width:"85px",
+      render: r => `<span class="badge b-region">${flag[r.region]||""} ${r.region}</span>`
     },
     {
-      key: "sigHero", label: "Sig. Hero", width: "120px",
+      key:"sigHero", label:"Hero", width:"110px",
       render: r => `<span class="badge b-hero">${r.sigHero}</span>`
     },
     {
-      key: "role", label: "Role", width: "130px",
+      key:"role", label:"Role", width:"120px",
       render: r => `<span class="badge b-role">${r.role}</span>`
     },
     {
-      key: "winRate", label: "Win Rate", width: "160px",
+      key:"winRate", label:"Win Rate", width:"150px",
       render: r => `
         <div style="display:flex;align-items:center;gap:8px">
-          <div class="bar-bg">
+          <div class="bar-bg" style="flex:1">
             <div class="bar-fill" style="width:${r.winRate}%"></div>
           </div>
-          <span class="bar-pct">${r.winRate}%</span>
+          <span style="font-size:12px;font-weight:700;color:#1a8fff;min-width:34px">${r.winRate}%</span>
         </div>`
     },
     {
-      key: "matches", label: "Matches", width: "90px",
-      render: r => `<span class="matches-val">${r.matches}</span>`
+      key:"matches", label:"Matches", width:"85px",
+      render: r => `<span style="color:#3a8acc;font-weight:700">${r.matches}</span>`
     },
   ]
 
   // ============================================================
-  // 3. STATE
+  // 4. STATE
   // ============================================================
   let sortKey = null, sortDir = 1, filtered = [...data]
+  let activeMenu = 0
 
   // ============================================================
-  // 4. MODULAR — tiap fungsi satu tanggung jawab
+  // 5. MODULAR — tiap fungsi satu tanggung jawab
   // ============================================================
+
   function populateFilters() {
     const rs = document.getElementById("f-region")
     const hs = document.getElementById("f-hero")
@@ -343,6 +377,70 @@
     })
   }
 
+  // — MENU
+  function renderMenu(rows) {
+    document.getElementById("menu-container").innerHTML =
+      rows.map((r, i) => `
+        <button class="ml-menu-item ${activeMenu === i ? "active" : ""}"
+          onclick="activeMenu=${i};renderAll()">
+          ${r.nama.split(" ")[0]}
+        </button>`).join("")
+  }
+
+  // — CARD
+  function renderCard(r) {
+    const c = getAvatarColor(r.id)
+    return `
+      <div class="card">
+        <div class="card-avatar" style="background:${c.bg};border-color:${c.border};color:${c.text}">
+          ${initials(r.nama)}
+        </div>
+        <div class="card-name">${r.nama}</div>
+        <div class="card-team">${r.tim}</div>
+        <div class="card-badges">
+          <span class="badge b-region">${flag[r.region]||""} ${r.region}</span>
+          <span class="badge b-hero">${r.sigHero}</span>
+        </div>
+        <div class="badge b-role" style="margin-bottom:10px">${r.role}</div>
+        <div class="card-wr">Win Rate <span>${r.winRate}%</span></div>
+        <div class="bar-bg">
+          <div class="bar-fill" style="width:${r.winRate}%"></div>
+        </div>
+      </div>`
+  }
+
+  function renderCards(rows) {
+    document.getElementById("card-container").innerHTML =
+      rows.length ? rows.map(renderCard).join("") :
+      `<div class="empty" style="grid-column:1/-1">Tidak ada data</div>`
+  }
+
+  // — LIST
+  function renderListItem(r, i) {
+    const c = getAvatarColor(r.id)
+    return `
+      <div class="list-item">
+        <div class="list-avatar" style="background:${c.bg};border-color:${c.border};color:${c.text}">
+          ${initials(r.nama)}
+        </div>
+        <div class="list-info">
+          <div class="list-name">${r.nama}</div>
+          <div class="list-sub">${r.tim} · ${r.sigHero}</div>
+        </div>
+        <span class="badge b-region">${flag[r.region]||""} ${r.region}</span>
+        <span class="badge b-role" style="margin-left:6px">${r.role}</span>
+        <span class="badge b-wr" style="margin-left:6px">${r.winRate}%</span>
+        <span class="rank ${rankClass(i)}" style="margin-left:8px">${r.id}</span>
+      </div>`
+  }
+
+  function renderList(rows) {
+    document.getElementById("list-container").innerHTML =
+      rows.length ? rows.map(renderListItem).join("") :
+      `<div class="empty">Tidak ada data</div>`
+  }
+
+  // — TABLE HEAD
   function renderHead() {
     document.getElementById("thead").innerHTML =
       "<tr>" + columns.map(c => `
@@ -354,25 +452,21 @@
     document.querySelectorAll("th[data-key]").forEach(th => {
       th.addEventListener("click", () => {
         const k = th.dataset.key
-        if (sortKey === k) sortDir *= -1
-        else { sortKey = k; sortDir = 1 }
-        renderTable()
+        if (sortKey === k) sortDir *= -1; else { sortKey = k; sortDir = 1 }
+        renderAll()
       })
     })
   }
 
+  // — TABLE ROWS
   function renderRows(rows) {
-    if (!rows.length) {
-      document.getElementById("tbody").innerHTML =
-        `<tr><td colspan="${columns.length}" class="empty">Tidak ada data ditemukan</td></tr>`
-      return
-    }
     document.getElementById("tbody").innerHTML =
-      rows.map((row, i) =>
-        "<tr>" + columns.map(col => `<td>${col.render(row, i)}</td>`).join("") + "</tr>"
-      ).join("")
+      rows.length
+        ? rows.map((r, i) => "<tr>" + columns.map(col => `<td>${col.render(r, i)}</td>`).join("") + "</tr>").join("")
+        : `<tr><td colspan="${columns.length}" class="empty">Tidak ada data ditemukan</td></tr>`
   }
 
+  // — FILTER
   function applyFilters() {
     const q    = document.getElementById("search").value.toLowerCase()
     const reg  = document.getElementById("f-region").value
@@ -385,6 +479,7 @@
     })
   }
 
+  // — SORT
   function applySort() {
     if (!sortKey) return
     filtered.sort((a, b) => {
@@ -395,11 +490,14 @@
   }
 
   // ============================================================
-  // 5. SCALABLE — satu fungsi master
+  // 6. SCALABLE — satu fungsi master, semua view ikut
   // ============================================================
-  function renderTable() {
+  function renderAll() {
     applyFilters()
     applySort()
+    renderMenu(filtered)
+    renderCards(filtered)
+    renderList(filtered)
     renderHead()
     renderRows(filtered)
     document.getElementById("count-lbl").textContent =
@@ -407,14 +505,14 @@
   }
 
   // ============================================================
-  // 6. INIT
+  // 7. INIT
   // ============================================================
   populateFilters()
-  renderTable()
+  renderAll()
 
-  document.getElementById("search").addEventListener("input", renderTable)
-  document.getElementById("f-region").addEventListener("change", renderTable)
-  document.getElementById("f-hero").addEventListener("change", renderTable)
+  document.getElementById("search").addEventListener("input", renderAll)
+  document.getElementById("f-region").addEventListener("change", renderAll)
+  document.getElementById("f-hero").addEventListener("change", renderAll)
 </script>
 
 </body>
