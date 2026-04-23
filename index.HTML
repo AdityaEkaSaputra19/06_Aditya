@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MLBB Pro Roamer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: #010d1f;
+      min-height: 100vh;
+      padding: 2rem;
+      color: #c0d8f0;
+    }
+
+    /* ── BACKGROUND SUBTLE GRID ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(26,143,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(26,143,255,.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .header .crown {
+      font-size: 32px;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .header .title {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #f0c040;
+      text-shadow: 0 0 18px rgba(240,192,64,.45), 0 0 40px rgba(240,192,64,.15);
+    }
+
+    .header .sub {
+      font-size: 13px;
+      letter-spacing: 3px;
+      color: #3a7abf;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .divider {
+      height: 1.5px;
+      background: linear-gradient(90deg, transparent, #f0c040aa, #1a8fffaa, transparent);
+      margin: 1.5rem 0;
+    }
+
+    /* ── TOOLBAR ── */
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .toolbar input,
+    .toolbar select {
+      padding: 8px 14px;
+      background: #040f22;
+      border: 1px solid #1a3a6e;
+      border-radius: 8px;
+      color: #8ab8e0;
+      font-size: 14px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 500;
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    .toolbar input { flex: 1; min-width: 200px; }
+    .toolbar input::placeholder { color: #1e3f6a; }
+    .toolbar input:focus,
+    .toolbar select:focus { border-color: #1a8fff; }
+
+    /* ── TABLE WRAPPER ── */
+    .tbl-outer {
+      border: 1px solid #1a3a6e;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(26,143,255,.08), inset 0 0 30px rgba(0,0,0,.4);
+    }
+
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+
+    /* ── HEADER ROW ── */
+    thead tr { background: #030e20; }
+
+    th {
+      padding: 12px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #f0c040;
+      border-bottom: 1.5px solid #1a3060;
+      cursor: pointer;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    th:hover { color: #fff; }
+    th .si { margin-left: 5px; font-size: 9px; opacity: .3; }
+    th.asc .si { opacity: 1; }
+    th.asc .si::after  { content: "▲"; }
+    th.desc .si { opacity: 1; }
+    th.desc .si::after { content: "▼"; }
+    th:not(.asc):not(.desc) .si::after { content: "⇅"; }
+
+    /* ── DATA ROWS ── */
+    td {
+      padding: 11px 14px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #b0cce8;
+      border-bottom: 1px solid #0c1e38;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      vertical-align: middle;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    tr:hover td {
+      background: #071526;
+    }
+
+    /* ── RANK BADGE ── */
+    .rank {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 700;
+      background: #08172e;
+      border: 1px solid #1a3a6e;
+      color: #3a6a9a;
+    }
+    .rank.gold   { border-color: #f0c040; color: #f0c040; background: #150f00; box-shadow: 0 0 8px rgba(240,192,64,.25); }
+    .rank.silver { border-color: #9ab8cc; color: #9ab8cc; background: #0c1520; }
+    .rank.bronze { border-color: #bf7c3a; color: #bf7c3a; background: #120a00; }
+
+    /* ── PLAYER NAME ── */
+    .pname { color: #e8f4ff; font-weight: 700; font-size: 15px; }
+    .pteam { font-size: 11px; color: #2a5070; letter-spacing: .5px; margin-top: 1px; }
+
+    /* ── BADGES ── */
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+
+    .b-hero   { background: #061e38; color: #4ab8f0; border: 1px solid #0d4070; }
+    .b-role   { background: #150c00; color: #e8b030; border: 1px solid #5a3c00; }
+    .b-region { background: #061a10; color: #48c878; border: 1px solid #0d4020; }
+
+    /* ── WIN RATE BAR ── */
+    .bar-bg {
+      background: #050f20;
+      border-radius: 4px;
+      height: 7px;
+      flex: 1;
+      overflow: hidden;
+      border: 1px solid #0d2040;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #0d6abf, #1a8fff);
+      box-shadow: 0 0 6px rgba(26,143,255,.4);
+    }
+    .bar-pct {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1a8fff;
+      min-width: 38px;
+      text-align: right;
+    }
+
+    /* ── MATCHES ── */
+    .matches-val { color: #3a8acc; font-weight: 700; }
+
+    /* ── FOOTER ── */
+    .foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+      font-size: 12px;
+      color: #1e3f6a;
+    }
+    .foot .tag { color: rgba(240,192,64,.4); }
+
+    /* ── EMPTY STATE ── */
+    .empty {
+      text-align: center;
+      color: #1e3f6a;
+      padding: 32px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <span class="crown">⚔</span>
+    <div class="title">Pro Roamer — Mobile Legends</div>
+    <div class="sub">Top 9 World-Class Roamer Players</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="toolbar">
+    <input type="text" id="search" placeholder="Cari nama, tim, atau hero...">
+    <select id="f-region"><option value="">Semua region</option></select>
+    <select id="f-hero"><option value="">Semua hero</option></select>
+  </div>
+
+  <div class="tbl-outer">
+    <table>
+      <thead id="thead"></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <div class="foot">
+    <span id="count-lbl"></span>
+    <span class="tag">renderTable() — DRY · Reuse · Modular · Scalable</span>
+  </div>
+
+</div>
+
+<script>
+  // ============================================================
+  // 1. DATA
+  // ============================================================
+  const data = [
+    { id:1, nama:"Kiboy",       tim:"Blacklist Int'l", region:"PH", sigHero:"Tigreal",  winRate:72, role:"Full Roamer", matches:312 },
+    { id:2, nama:"OhMyV33NUS",  tim:"Blacklist Int'l", region:"PH", sigHero:"Mathilda", winRate:69, role:"Roam / Sup",  matches:298 },
+    { id:3, nama:"Hadji",       tim:"Echo",            region:"PH", sigHero:"Atlas",    winRate:67, role:"Full Roamer", matches:275 },
+    { id:4, nama:"Drian",       tim:"ONIC PH",         region:"PH", sigHero:"Khufra",   winRate:65, role:"Roam / Tank", matches:260 },
+    { id:5, nama:"Onic Sanz",   tim:"ONIC Esports",    region:"ID", sigHero:"Franco",   winRate:63, role:"Full Roamer", matches:241 },
+    { id:6, nama:"Celiboy",     tim:"RRQ Hoshi",       region:"ID", sigHero:"Chou",     winRate:61, role:"Roam / Flex", matches:230 },
+    { id:7, nama:"Kydra",       tim:"Team SMG",        region:"MY", sigHero:"Lolita",   winRate:60, role:"Full Roamer", matches:218 },
+    { id:8, nama:"Bennyqt",     tim:"Falcons",         region:"MY", sigHero:"Jawhead",  winRate:58, role:"Roam / Sup",  matches:205 },
+    { id:9, nama:"Xinnn",       tim:"Team Flash",      region:"VN", sigHero:"Rafaela",  winRate:57, role:"Full Roamer", matches:197 },
+  ]
+
+  // ============================================================
+  // 2. COLUMNS — definisi sekali, reuse di header & baris
+  // ============================================================
+  const columns = [
+    {
+      key: "id", label: "#", width: "52px",
+      render: (r, i) => {
+        const cls = i === 0 ? "gold" : i === 1 ? "silver" : i === 2 ? "bronze" : ""
+        return `<span class="rank ${cls}">${r.id}</span>`
+      }
+    },
+    {
+      key: "nama", label: "Player", width: "auto",
+      render: r => `<div class="pname">${r.nama}</div><div class="pteam">${r.tim}</div>`
+    },
+    {
+      key: "region", label: "Region", width: "90px",
+      render: r => {
+        const flag = { PH:"🇵🇭", ID:"🇮🇩", MY:"🇲🇾", VN:"🇻🇳" }
+        return `<span class="badge b-region">${flag[r.region] || ""} ${r.region}</span>`
+      }
+    },
+    {
+      key: "sigHero", label: "Sig. Hero", width: "120px",
+      render: r => `<span class="badge b-hero">${r.sigHero}</span>`
+    },
+    {
+      key: "role", label: "Role", width: "130px",
+      render: r => `<span class="badge b-role">${r.role}</span>`
+    },
+    {
+      key: "winRate", label: "Win Rate", width: "160px",
+      render: r => `
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="bar-bg">
+            <div class="bar-fill" style="width:${r.winRate}%"></div>
+          </div>
+          <span class="bar-pct">${r.winRate}%</span>
+        </div>`
+    },
+    {
+      key: "matches", label: "Matches", width: "90px",
+      render: r => `<span class="matches-val">${r.matches}</span>`
+    },
+  ]
+
+  // ============================================================
+  // 3. STATE
+  // ============================================================
+  let sortKey = null, sortDir = 1, filtered = [...data]
+
+  // ============================================================
+  // 4. MODULAR — tiap fungsi satu tanggung jawab
+  // ============================================================
+  function populateFilters() {
+    const rs = document.getElementById("f-region")
+    const hs = document.getElementById("f-hero")
+    ;[...new Set(data.map(d => d.region))].sort().forEach(v => {
+      const o = document.createElement("option"); o.value = v; o.textContent = v; rs.appendChild(o)
+    })
+    ;[...new Set(data.map(d => d.sigHero))].sort().forEach(v => {
+      const o = document.createElement("option"); o.value = v; o.textContent = v; hs.appendChild(o)
+    })
+  }
+
+  function renderHead() {
+    document.getElementById("thead").innerHTML =
+      "<tr>" + columns.map(c => `
+        <th data-key="${c.key}" style="width:${c.width}"
+            class="${sortKey === c.key ? (sortDir === 1 ? "asc" : "desc") : ""}">
+          ${c.label}<span class="si"></span>
+        </th>`).join("") + "</tr>"
+
+    document.querySelectorAll("th[data-key]").forEach(th => {
+      th.addEventListener("click", () => {
+        const k = th.dataset.key
+        if (sortKey === k) sortDir *= -1
+        else { sortKey = k; sortDir = 1 }
+        renderTable()
+      })
+    })
+  }
+
+  function renderRows(rows) {
+    if (!rows.length) {
+      document.getElementById("tbody").innerHTML =
+        `<tr><td colspan="${columns.length}" class="empty">Tidak ada data ditemukan</td></tr>`
+      return
+    }
+    document.getElementById("tbody").innerHTML =
+      rows.map((row, i) =>
+        "<tr>" + columns.map(col => `<td>${col.render(row, i)}</td>`).join("") + "</tr>"
+      ).join("")
+  }
+
+  function applyFilters() {
+    const q    = document.getElementById("search").value.toLowerCase()
+    const reg  = document.getElementById("f-region").value
+    const hero = document.getElementById("f-hero").value
+    filtered = data.filter(r => {
+      const mq    = !q    || [r.nama, r.tim, r.sigHero].some(v => v.toLowerCase().includes(q))
+      const mreg  = !reg  || r.region === reg
+      const mhero = !hero || r.sigHero === hero
+      return mq && mreg && mhero
+    })
+  }
+
+  function applySort() {
+    if (!sortKey) return
+    filtered.sort((a, b) => {
+      const va = a[sortKey], vb = b[sortKey]
+      if (typeof va === "number") return (va - vb) * sortDir
+      return String(va).localeCompare(String(vb)) * sortDir
+    })
+  }
+
+  // ============================================================
+  // 5. SCALABLE — satu fungsi master
+  // ============================================================
+  function renderTable() {
+    applyFilters()
+    applySort()
+    renderHead()
+    renderRows(filtered)
+    document.getElementById("count-lbl").textContent =
+      `Menampilkan ${filtered.length} dari ${data.length} player`
+  }
+
+  // ============================================================
+  // 6. INIT
+  // ============================================================
+  populateFilters()
+  renderTable()
+
+  document.getElementById("search").addEventListener("input", renderTable)
+  document.getElementById("f-region").addEventListener("change", renderTable)
+  document.getElementById("f-hero").addEventListener("change", renderTable)
+</script>
+
+</body>
+</html>
